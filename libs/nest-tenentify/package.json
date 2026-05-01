@@ -1,0 +1,17 @@
+{
+  "name": "nest-tenentify",
+  "version": "0.0.1",
+  "description": "A generic multi-tenant and smart auth toolkit for NestJS.",
+  "author": "Atharva Tribhuwane",
+  "license": "MIT",
+  "scripts": {},
+  "peerDependencies": {
+    "@nestjs/common": "^10.0.0 || ^11.0.0",
+    "@nestjs/core": "^10.0.0 || ^11.0.0",
+    "reflect-metadata": "^0.1.13 || ^0.2.0",
+    "rxjs": "^7.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
