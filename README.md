@@ -96,3 +96,27 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+## Folder-structure
+nest-tenentify/
+├── src/
+│   ├── constants/          # Injection tokens and error messages
+│   ├── common/             # Shared utilities, exceptions, and types
+│   ├── core/               # The "Engine": Discovery logic and DI helpers
+│   │   ├── discovery/      # Logic to find decorated methods at startup
+│   │   └── factory/        # Dynamic module creation logic
+│   ├── decorators/         # Public-facing API (e.g., @Tenant(), @CheckPermissions())
+│   ├── interfaces/         # Absolute source of truth for Types/Interfaces
+│   ├── modules/            # The actual logic blocks
+│   │   ├── auth/           # RBAC/ABAC and Strategy logic
+│   │   │   ├── guards/
+│   │   │   ├── strategies/ # JWT, API Key, OAuth
+│   │   │   └── services/
+│   │   └── tenant/         # Multi-tenancy logic
+│   │       ├── middleware/
+│   │       └── context/    # AsyncLocalStorage logic for tenant isolation
+│   ├── index.ts            # The "Barrel" file (Public API)
+├── test/                   # Unit and Integration (E2E) tests
+├── README.md               # Professional documentation
+└── package.json            # Library-specific dependencies
