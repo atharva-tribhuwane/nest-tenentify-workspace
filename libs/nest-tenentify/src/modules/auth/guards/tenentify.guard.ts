@@ -1,6 +1,5 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { Observable } from "rxjs";
 import { STRATEGY_REGISTRY } from "tenentify/nest-tenentify/constants";
 import { PERMISSIONS_KEY, ROLES_KEY } from "tenentify/nest-tenentify/constants/metadata.constants";
 import { AuthenticatedActor, IAuthStrategy } from "tenentify/nest-tenentify/interfaces/auth.interface";
