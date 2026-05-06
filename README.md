@@ -25,6 +25,77 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## nest-tenentify library
+
+This repo contains the `nest-tenentify` library under `libs/nest-tenentify/`.
+
+- **Library docs**: see `libs/nest-tenentify/README.md`
+
+### Minimal JWT strategy (copy/paste)
+
+Create a strategy in your app (example: `src/auth/jwt.strategy.ts`).
+
+```ts
+import { Injectable } from "@nestjs/common";
+import { AuthenticatedActor, IAuthStrategy } from "nest-tenentify";
+
+@Injectable()
+export class JwtAuthStrategy implements IAuthStrategy {
+  readonly name = "jwt";
+
+  async authenticate(request: unknown): Promise<AuthenticatedActor | null> {
+    const req = request as { headers?: Record<string, string | undefined> };
+    const auth = req.headers?.authorization;
+    if (!auth?.startsWith("Bearer ")) return null;
+
+    const token = auth.slice("Bearer ".length).trim();
+    if (!token) return null;
+
+    // TODO: verify token using your preferred library (e.g. jose / @nestjs/jwt)
+    // Example minimal "decoded" payload shape:
+    const payload = decodeJwtWithoutVerifying(token) as {
+      sub: string;
+      tenantId: string;
+      roles?: string[];
+      permissions?: string[];
+    };
+
+    return {
+      id: payload.sub,
+      type: "user",
+      tenantId: payload.tenantId,
+      roles: payload.roles ?? [],
+      permissions: payload.permissions ?? [],
+      attributes: {},
+    };
+  }
+}
+
+function decodeJwtWithoutVerifying(_token: string): unknown {
+  // Intentionally left as a stub for copy/paste.
+  // Replace this with proper signature verification.
+  return { sub: "user_1", tenantId: "tenant_1" };
+}
+```
+
+Then register the module:
+
+```ts
+import { Module } from "@nestjs/common";
+import { NestTenentifyModule } from "nest-tenentify";
+import { JwtAuthStrategy } from "./auth/jwt.strategy";
+
+@Module({
+  imports: [
+    NestTenentifyModule.register({
+      strategies: [JwtAuthStrategy],
+      isGlobalGuard: true,
+    }),
+  ],
+})
+export class AppModule {}
+```
+
 ## Project setup
 
 ```bash

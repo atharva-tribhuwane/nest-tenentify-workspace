@@ -1,4 +1,4 @@
-import { ExecutionContext } from "@nestjs/common";
+import { ExecutionContext, Type } from "@nestjs/common";
 import { AuthenticatedActor } from "./auth.interface";
 
 export interface IPolicyHandler {
@@ -11,4 +11,6 @@ export interface IPolicyHandler {
 }
 
 // Allow users to pass a class OR a simple functional callback
-export type Policy = IPolicyHandler | ((actor: AuthenticatedActor, context: ExecutionContext) => boolean | Promise<boolean>);
+export type Policy =
+    | Type<IPolicyHandler>
+    | ((actor: AuthenticatedActor, context: ExecutionContext) => boolean | Promise<boolean>);
