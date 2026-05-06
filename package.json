@@ -7,6 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
+    "build:nest-tenentify": "rm -rf dist/libs/nest-tenentify && tsc -p libs/nest-tenentify/tsconfig.lib.json",
+    "pack:nest-tenentify": "node ./scripts/pack-nest-tenentify.mjs",
+    "publish:nest-tenentify": "npm run build:nest-tenentify && npm run pack:nest-tenentify && npm publish ./dist/libs/nest-tenentify --access public",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

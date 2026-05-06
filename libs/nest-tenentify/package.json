@@ -4,6 +4,21 @@
   "description": "A generic multi-tenant and smart auth toolkit for NestJS.",
   "author": "Atharva Tribhuwane",
   "license": "MIT",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "**/*.js.map",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {},
   "peerDependencies": {
     "@nestjs/common": "^10.0.0 || ^11.0.0",

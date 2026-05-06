@@ -13,6 +13,7 @@
       "entryFile": "index",
       "sourceRoot": "libs/nest-tenentify/src",
       "compilerOptions": {
+        "webpack": false,
         "tsConfigPath": "libs/nest-tenentify/tsconfig.lib.json"
       }
     }
