@@ -1,8 +1,9 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { STRATEGY_REGISTRY } from "tenentify/nest-tenentify/constants";
-import { PERMISSIONS_KEY, ROLES_KEY } from "tenentify/nest-tenentify/constants/metadata.constants";
+import { CHECK_POLICIES_KEY, PERMISSIONS_KEY, ROLES_KEY } from "tenentify/nest-tenentify/constants/metadata.constants";
 import { AuthenticatedActor, IAuthStrategy } from "tenentify/nest-tenentify/interfaces/auth.interface";
+import { Policy } from "tenentify/nest-tenentify/interfaces/policy.interface";
 
 @Injectable()
 export class TenentifyGuard implements CanActivate {
@@ -40,6 +41,22 @@ export class TenentifyGuard implements CanActivate {
             throw new ForbiddenException('Missing Required Permissions');
         }
 
+        const policies = this.reflector.getAllAndOverride<Policy[]>(CHECK_POLICIES_KEY, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
+
+        if (policies) {
+            for (const policy of policies) {
+                const result = typeof policy === 'function'
+                    ? await policy(actor, context)
+                    : await policy.handle(actor, context);
+
+                if (!result) {
+                    throw new ForbiddenException('Policy Requirement Not Met');
+                }
+            }
+        }
         return true;
     }
 
